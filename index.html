@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="playerNameDiv">
+        Enter your name
+        <input type='text' id="playerName">
+        <button type="button" onclick=openCharacterSelectScreen()>Enter</button>
+    </div>
+    
+    <div id="characterSelectScreen">
+        Choose your character
+
+    </div>
+    <div id="gameScreen">
+        <canvas>
+
+        </canvas>
+    </div>
+
+    <script src='/socket.io/socket.io.js'></script>
+    <script>
+        const socket = io(); // This is when you connect
+        var nameScreen = document.getElementById('playerNameDiv');
+
+        function openCharacterSelectScreen(){
+
+        }
+
+
+    </script>
+</body>
+</html>
