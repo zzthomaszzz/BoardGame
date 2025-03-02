@@ -6,18 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="playerNameDiv">
+    <div id="selectScreen">
         Enter your name
-        <input type='text' id="playerName">
-        <button type="button" onclick=openCharacterSelectScreen()>Enter</button>
-    </div>
-    
-    <div id="characterSelectScreen">
+        <input type='text' id="playerName"><br>
         Choose your character
-
+        <button type="button" onclick=joinGame()>Enter</button>
     </div>
-    <div id="gameScreen">
-        <canvas>
+    <div id="gameDiv">
+        <canvas id="gameScreen" width="800" height="600" style="border:1px solid #000000;">
 
         </canvas>
     </div>
@@ -25,12 +21,22 @@
     <script src='/socket.io/socket.io.js'></script>
     <script>
         const socket = io(); // This is when you connect
-        var nameScreen = document.getElementById('playerNameDiv');
+        const canvas = document.getElementById('gameScreen');
+        const ctx = canvas.getContext('2d');
+        const image = new Image();
+        image.src = '/images/map.png';
+        image.onload = function(){
+            ctx.drawImage(image, 0, 0);
+        }
+        var nameScreen = document.getElementById('selectScreen');
 
-        function openCharacterSelectScreen(){
+        function joinGame(){
 
         }
 
+        socket.on("disconnect", () => {
+        console.log(socket.id);
+        });
 
     </script>
 </body>
