@@ -23,20 +23,43 @@
         const socket = io(); // This is when you connect
         const canvas = document.getElementById('gameScreen');
         const ctx = canvas.getContext('2d');
-        const image = new Image();
-        image.src = '/images/map.png';
-        image.onload = function(){
-            ctx.drawImage(image, 0, 0);
-        }
+        var map;
+
+        //assets here
+        const grassBlock = new Image();
+        grassBlock.src = '/images/tiles/grass_block.png';
+        const mountainBlock = new Image();
+        mountainBlock.src = '/images/tiles/mountain_block.png';
+        const redPlayer = new Image();
+        redPlayer.src = 'images/tiles/red_player.png';
+        const bluePlayer = new Image();
+        bluePlayer.src = 'images/tiles/blue_player.png';
+        const playerModel = new Image();
+        playerModel.src = 'images/characters/swordman.png';
         var nameScreen = document.getElementById('selectScreen');
 
-        function joinGame(){
-
-        }
-
-        socket.on("disconnect", () => {
-        console.log(socket.id);
+        socket.on("mapPack", (data) => {
+            map = data.map;
         });
+
+        var y = 0;
+        for(y; y < map.length; y++)
+        {
+            var x = 0;
+            for(x; x < map[y].length; x++){
+                switch (map[y][x].id){
+                    case 0:
+                        ctx.drawImage(grassBlock, x * 50, y * 50);
+                        break;
+                    case 1:
+                        ctx.drawImage(mountainBlock, x * 50, y * 50);
+                        break;
+                    default:
+                        ctx.drawImage(grassBlock, x * 50, y * 50);
+                        break;
+                }
+            }
+        }
 
     </script>
 </body>

@@ -20,6 +20,61 @@ server.listen(3000, () => {
 //List of all players
 var SOCKET = {};
 
+
+// Screen is 800x600, you will need the map to be 16 blocks wide and 12 blocks high
+class Map {
+  constructor(){
+    this.mapIndex = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+    this.createMap();
+  }
+
+  createMap(){
+    var y = 0;
+    while(y < this.mapIndex.length, y++){
+      var x = 0;
+      while(x < this.mapIndex[y].length, x++){
+        switch(this.mapIndex[y][x]){
+          case 0:
+            Map.data[y][x] = new Tile(x, y, 0);
+            break;
+          case 1:
+            Map.data[y][x] = new Tile(x, y, 1);
+            break;
+          default:
+            Map.data[y][x] = new Tile(x, y, 0);
+            break;
+        }
+      }
+    }
+  }
+}
+
+Map.data = [];
+new Map();
+console.log(Map.data);
+
+class Tile{
+  constructor(x, y, id){
+    this.x = x;
+    this.y = y;
+    this.id = id;
+    this.occupied = false;
+  }
+}
+
 class Player{
   constructor(id){
     this.id = this.id;
@@ -40,10 +95,5 @@ io.on('connection', (socket) => {
     socket.id = Math.random();
     console.log(socket.id);
     SOCKET[socket.id] = new Player(socket.id);
-
+    socket.emit("mapPack", {map: Map.data});
 });
-
-io.on('disconnect', (socket) => {
-  delete SOCKET[socket.id];
-  console.log('deleted player id: ' + socket.id);
-})
