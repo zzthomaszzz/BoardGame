@@ -63,8 +63,7 @@ class Map {
 }
 
 Map.data = [];
-new Map();
-console.log(Map.data);
+
 
 class Tile{
   constructor(x, y, id){
@@ -92,6 +91,10 @@ class defaultHero{
 }
 
 io.on('connection', (socket) => {
+  if(SOCKET.length == 0){
+    new Map();
+    console.log(Map.data);
+  }
     socket.id = Math.random();
     console.log(socket.id);
     SOCKET[socket.id] = new Player(socket.id);
